@@ -22,18 +22,8 @@ public class main {
     public static void main(String a[]) throws BlueprintNotFoundException, BlueprintPersistenceException {
         ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
         BlueprintsServices bpS = ac.getBean(BlueprintsServices.class);
-        InMemoryBlueprintPersistence imbp = new InMemoryBlueprintPersistence();
         InMemoryBlueprintPersistence ibpp=new InMemoryBlueprintPersistence();
-
-        Point[] pts0=new Point[]{new Point(40, 40),new Point(15, 15)};
-        Blueprint bp0=new Blueprint("mack", "mypaint",pts0);
-        
-        ibpp.saveBlueprint(bp0);
-        
-        Point[] pts=new Point[]{new Point(0, 0),new Point(10, 10)};
-        Blueprint bp=new Blueprint("john", "thepaint",pts);
-        
-        ibpp.saveBlueprint(bp);
         System.out.println(bpS.getBlueprint("john", "thepaint"));
+        System.out.println(bpS.getBlueprintsByAuthor("john"));
     }
 }

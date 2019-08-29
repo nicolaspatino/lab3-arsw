@@ -21,37 +21,42 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BlueprintsServices {
-   
+
     @Autowired
-    BlueprintsPersistence bpp=null;
-    
-    public void addNewBlueprint(Blueprint bp){
-        
+    BlueprintsPersistence bpp = null;
+
+    public void addNewBlueprint(Blueprint bp) {
+
     }
-    
-    public Set<Blueprint> getAllBlueprints(){
+
+    public Set<Blueprint> getAllBlueprints() {
         return null;
     }
-    
+
     /**
-     * 
+     *
      * @param author blueprint's author
      * @param name blueprint's name
      * @return the blueprint of the given name created by the given author
      * @throws BlueprintNotFoundException if there is no such blueprint
      */
-    public Blueprint getBlueprint(String author,String name) throws BlueprintNotFoundException{
+    public Blueprint getBlueprint(String author, String name) throws BlueprintNotFoundException {
         return bpp.getBlueprint(author, name);
     }
-    
+
     /**
-     * 
+     *
      * @param author blueprint's author
      * @return all the blueprints of the given author
      * @throws BlueprintNotFoundException if the given author doesn't exist
      */
-    public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException{
+    public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException {
         return bpp.getBlueprintsByAuthor(author);
     }
-    
+    public Set<Blueprint> getBlueprintsRedundancyFiltering(){
+        return null;
+    }
+    public Set<Blueprint>  getBlueprintsSubsamplingFiltering(){
+        return null;
+    }
 }

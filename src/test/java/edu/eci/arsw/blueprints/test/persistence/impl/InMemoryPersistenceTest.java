@@ -9,7 +9,9 @@ import edu.eci.arsw.blueprints.model.Blueprint;
 import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
+import edu.eci.arsw.blueprints.persistence.Filter;
 import edu.eci.arsw.blueprints.persistence.impl.InMemoryBlueprintPersistence;
+import edu.eci.arsw.blueprints.persistence.impl.RedundancyFiltering;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
@@ -31,7 +33,7 @@ public class InMemoryPersistenceTest {
         ibpp.saveBlueprint(bp0);
         
         Point[] pts=new Point[]{new Point(0, 0),new Point(10, 10)};
-        Blueprint bp=new Blueprint("john", "thepaint",pts);
+        Blueprint bp=new Blueprint("john1", "thepaint1",pts);
         
         ibpp.saveBlueprint(bp);
         
@@ -47,7 +49,7 @@ public class InMemoryPersistenceTest {
         InMemoryBlueprintPersistence ibpp=new InMemoryBlueprintPersistence();
         
         Point[] pts=new Point[]{new Point(0, 0),new Point(10, 10)};
-        Blueprint bp=new Blueprint("john", "thepaint",pts);
+        Blueprint bp=new Blueprint("john1", "thepaint1",pts);
         
         try {
             ibpp.saveBlueprint(bp);
@@ -56,7 +58,7 @@ public class InMemoryPersistenceTest {
         }
         
         Point[] pts2=new Point[]{new Point(10, 10),new Point(20, 20)};
-        Blueprint bp2=new Blueprint("john", "thepaint",pts2);
+        Blueprint bp2=new Blueprint("john1", "thepaint1",pts2);
 
         try{
             ibpp.saveBlueprint(bp2);
@@ -65,10 +67,25 @@ public class InMemoryPersistenceTest {
         catch (BlueprintPersistenceException ex){
             
         }
-                
+           
         
     }
 
+    @Test
+    public void RedundancyFiltering() throws BlueprintPersistenceException {
+        InMemoryBlueprintPersistence ibpp=new InMemoryBlueprintPersistence();
+        Filter fil=new RedundancyFiltering();
+        Point[] pts0=new Point[]{new Point(40, 40),new Point(15, 15)};
+        Blueprint bp0=new Blueprint("jonh1", "thepaint1",pts0);
+        
+        ibpp.saveBlueprint(bp0);
+        
+        Point[] pts=new Point[]{new Point(0, 0),new Point(10, 10)};
+        Blueprint bp=new Blueprint("john1", "thepaint1",pts);
+        
+        ibpp.saveBlueprint(bp);
+        assertEquals("Loading a previously stored blueprint returned a different blueprint.",1,fil.filter(ibpp.getBlueprintsByAuthor("john1")).size());
+    }
 
     
 }
